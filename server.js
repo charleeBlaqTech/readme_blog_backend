@@ -1,6 +1,7 @@
 const dotenv     = require("dotenv").config();
 const mongoose   = require("mongoose");
 const cors       = require('cors');
+const methodOverride = require('method-override');
 
 const express = require('express');
 const fileUpload = require('express-fileupload');
@@ -14,6 +15,7 @@ const postsRoutes= require('./routes/postRoutesRouter');
 
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
+app.use(methodOverride('_method'));
 app.use(cors());
 app.use(fileUpload());
 

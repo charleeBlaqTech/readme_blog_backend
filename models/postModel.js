@@ -16,6 +16,10 @@ const postSchema= new Schema({
         type: String,
         required: true
     },
+    category:{
+        type: String,
+        required: true
+    },
     created:{
         type: Date,
         default: Date.now(),

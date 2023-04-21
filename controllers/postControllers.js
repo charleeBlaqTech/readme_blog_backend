@@ -1,55 +1,124 @@
+
 const post = require('../models/postModel');
 
 
 
 
-const postsGet      =  (req, res)=>{
-    const data= [
-        {
-            "id": 1,
-            'title':"great development in Nigeria Politics",
-            'description': "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate.",
-            'image': "https://media.istockphoto.com/id/1462664485/photo/top-view-woman-and-phone-on-exercise-mat-for-social-media-mobile-app-and-reading-fitness-blog.jpg?b=1&s=170667a&w=0&k=20&c=RY7UtuFOFjhNQpwPPoi5gZTuPf-UPrGqBVhIoJW-e6k="
-        },
-        {
-            "id": 2,
-            'title':"great development in Nigeria Politics",
-            'description': "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate.",
-            'image': "https://media.istockphoto.com/id/1462664485/photo/top-view-woman-and-phone-on-exercise-mat-for-social-media-mobile-app-and-reading-fitness-blog.jpg?b=1&s=170667a&w=0&k=20&c=RY7UtuFOFjhNQpwPPoi5gZTuPf-UPrGqBVhIoJW-e6k="
-        },
-        {
-            "id": 3,
-            'title':"great development in Nigeria Politics",
-            'description': "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate.",
-            'image': "https://media.istockphoto.com/id/1462664485/photo/top-view-woman-and-phone-on-exercise-mat-for-social-media-mobile-app-and-reading-fitness-blog.jpg?b=1&s=170667a&w=0&k=20&c=RY7UtuFOFjhNQpwPPoi5gZTuPf-UPrGqBVhIoJW-e6k="
-        },
-       
-]
-    res.json(data);
+const postsGet          =  async (req, res)=>{
+    try {
+        const data= await post.find().sort({created: 1}).limit(3);
+        const data2= await post.find().sort({created: -1}).limit(1);
+        res.status(201).json([data,data2]);
+    } catch (error) {
+        res.status(404).json(error)
+    }
+   
 }
 
-const postsNewGet   =  (req, res)=>{
+const postsNewGet       =  (req, res)=>{
     res.json("are u ready to add new data");
 }
-const postsPost     =  (req, res)=>{
+
+const postsPost         = async (req, res)=>{
+    const {title, description, image,category} = req.body;
+    if(title && description && image && category){
+        await post.create({
+            title,
+            description,
+            image,
+            category
+        }).then((response)=>{
+            res.status(200).redirect('/blogs')
+        }).catch((error)=>{
+            res.status(400).redirect('/blogs');
+        })
+    }else{
+        res.status(404).redirect('/blogs');
+    }
+    
+}
+
+const postsShow         =  async(req, res)=>{
+    const postDetail= await post.findOne({_id:req.params.id}).then((response)=>{
+        res.status(201).json(response);
+    }).catch((error)=>{
+        res.status(404).json(error);
+        res.redirect('/blogs');
+    })
+   
+}
+
+
+const postsEditGet      =  (req, res)=>{
     res.json();
 }
-const postsShow     =  (req, res)=>{
-    console.log(req.params.id);
-    res.json(req.params.id);
+
+const postsUpdatePut    = async(req, res)=>{
+    const id = req.params.id
+    const {updateTitle, updateDescription, updateImage,updateCategory}= req.body;
+    if(updateTitle && updateDescription && updateImage && updateCategory){
+        await post.findOne({_id:id}).then((response)=>{
+            response.title = updateTitle;
+            response.description = updateDescription;
+            response.image = updateImage;
+            response.category = updateCategory;
+            response.save();
+            res.status(200).redirect('/blogs');
+        }).catch((error)=>{
+            res.status(400).redirect('/blogs');
+        })
+    }else if(updateTitle || updateDescription || updateImage || updateCategory){
+
+        if(updateTitle){
+            await post.findOne({_id:id}).then((response)=>{
+                response.title = updateTitle;
+                response.save();
+                res.status(200).redirect('/blogs');
+            }).catch((error)=>{
+                res.status(400).redirect('/blogs');
+            })
+        }else if(updateDescription){
+            await post.findOne({_id:id}).then((response)=>{
+                response.description = updateDescription;
+                response.save();
+                res.status(200).redirect('/blogs');
+            }).catch((error)=>{
+                res.status(400).redirect('/blogs');
+            })
+        }else if(updateImage){
+            await post.findOne({_id:id}).then((response)=>{
+                response.image = updateImage;
+                response.save();
+                res.status(200).redirect('/blogs');
+            }).catch((error)=>{
+                res.status(400).redirect('/blogs');
+            })
+        }else if(updateCategory){
+            await post.findOne({_id:id}).then((response)=>{
+                response.category = updateCategory;
+                response.save();
+                res.status(200).redirect('/blogs');
+            }).catch((error)=>{
+                res.status(400).redirect('/blogs');
+            })
+        }
+    }
+    else{
+        res.status(400).redirect('/blogs');
+    }
+
 }
-const postsEditGet  =  (req, res)=>{
-    res.json();
+
+const postsDelete       =  async(req, res)=>{
+     await post.findOneAndDelete({_id:req.params.id}).then((response)=>{
+        res.status(200).redirect('/blogs');
+    }).catch((error)=>{
+        res.status(400).redirect('/blogs');
+    })
 }
-const postsUpdatePost   =  (req, res)=>{
-    res.json();
-}
-const postsDelete       =  (req, res)=>{
-    res.json();
-}
 
 
 
 
 
-module.exports= {postsGet,postsNewGet,postsShow, postsPost, postsEditGet, postsUpdatePost, postsDelete}
+module.exports= {postsGet,postsNewGet,postsShow, postsPost, postsEditGet, postsUpdatePut, postsDelete}
