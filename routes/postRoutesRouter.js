@@ -5,13 +5,12 @@ const PostsController = require('../controllers/postControllers')
 
 
 
-router.get('/blogs', PostsController.postsGet);
-router.get('/blogs/new', PostsController.postsNewGet);
-router.post('/blogs', PostsController.postsPost);
-router.get('/blogs/:id', PostsController.postsShow);
-router.get('/blogs/:id/edit', PostsController.postsEditGet);
-router.post('/blogs/:id', PostsController.postsUpdatePut);
-router.get('/blogs/:id/delete', PostsController.postsDelete);
+router.route('/').get(PostsController.postsGet).post(PostsController.postsPost);
+router.get('/new', PostsController.postsNewGet);
+router.route('/:id').get(PostsController.postsShow).post(PostsController.postsUpdatePut);
+router.get('/:id/edit', PostsController.postsEditGet);
+router.get('/:id/delete', PostsController.postsDelete);
+router.get('/category/:name', PostsController.postsCategory);
 
 
 

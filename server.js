@@ -19,7 +19,7 @@ app.use(methodOverride('_method'));
 app.use(cors());
 app.use(fileUpload());
 
-app.use('/', postsRoutes);
+app.use('/blogs', postsRoutes);
 
 
 
