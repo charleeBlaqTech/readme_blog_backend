@@ -1,4 +1,3 @@
-
 const post = require('../models/postModel');
 
 
@@ -39,15 +38,21 @@ const postsPost         = async (req, res)=>{
 }
 
 const postsShow         =  async(req, res)=>{
-    const postDetail= await post.findOne({_id:req.params.id}).then((response)=>{
-        res.status(201).json(response);
-    }).catch((error)=>{
+    if(req.params.id){
+        const postDetail= await post.findOne({_id:req.params.id}).then((response)=>{
+            res.status(201).json(response);
+        }).catch((error)=>{
+            res.status(404).json(error);
+            res.redirect('/blogs');
+        })
+
+    }else{
         res.status(404).json(error);
         res.redirect('/blogs');
-    })
+    }
+   
    
 }
-
 
 const postsEditGet      =  (req, res)=>{
     res.json();
@@ -110,11 +115,16 @@ const postsUpdatePut    = async(req, res)=>{
 }
 
 const postsDelete       =  async(req, res)=>{
-     await post.findOneAndDelete({_id:req.params.id}).then((response)=>{
-        res.status(200).json(response);
-    }).catch((error)=>{
+    if(req.params.id){
+        await post.findOneAndDelete({_id:req.params.id}).then((response)=>{
+            res.status(200).json(response);
+        }).catch((error)=>{
+            res.status(400).json(error);
+        })
+    }else{
         res.status(400).json(error);
-    })
+        res.redirect('/blogs');
+    }
 }
 
 const postsCategory     = async (req, res)=>{
