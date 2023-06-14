@@ -10,7 +10,7 @@ const express           = require('express');
 const fileUpload        = require('express-fileupload');
 const app               = express();
 const connectToDb       = require('./dbconnection/connectDB');
-
+connectToDb();
 const homeRoutes        = require('./routes/homeRoutesRouter');
 const postsRoutes       = require('./routes/postRoutesRouter');
 
@@ -44,6 +44,4 @@ app.use('/blogs', postsRoutes);
 
 
 
-app.listen(process.env.PORT || 1100, ()=>{
-    connectToDb();
-})
+app.listen(process.env.PORT)
