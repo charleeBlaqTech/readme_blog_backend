@@ -1,6 +1,7 @@
 const express       = require('express');
 const router        = express.Router();
-const homeController= require('../controllers/homeControllers')
+const homeController= require('../controllers/homeControllers');
+const chackUser     =require("../middlewares/authUsers")
 
 
 
@@ -8,7 +9,9 @@ const homeController= require('../controllers/homeControllers')
 
 router.post('/login',homeController.loginUser)
 router.post('/signup',homeController.registerUser)
-router.get('/logout',homeController.logoutUser)
+router.get('/logout',chackUser,homeController.logoutUser)
+
+router.get('/contact',chackUser,homeController.contact)
 
 
 
