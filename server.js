@@ -22,7 +22,7 @@ app.use(express.urlencoded({extended:false}));
 app.use(methodOverride('_method'));
 app.use(cors({
   credentials: true,
-  origin: "https://trendspace.onrender.com",
+  origin: "http://localhost:3000",
  
 }));
 app.use(fileUpload());
@@ -31,13 +31,13 @@ app.use(fileUpload());
 app.use('/', homeRoutes);
 app.use('/blogs', postsRoutes);
 
-app.use(function(req, res, next) {
+// app.use(function(req, res, next) {
   
-  res.header('Access-Control-Allow-Origin', 'https://trendspace.onrender.com');
-  res.header('Access-Control-Allow-Credentials', true);
-  res.header('Content-Type', 'application/json');
-    next()
-  })
+//   res.header('Access-Control-Allow-Origin', 'https://trendspace.onrender.com');
+//   res.header('Access-Control-Allow-Credentials', true);
+//   res.header('Content-Type', 'application/json');
+//     next()
+//   })
 
 
 
