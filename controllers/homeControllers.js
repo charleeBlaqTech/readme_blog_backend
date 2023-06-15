@@ -17,7 +17,7 @@ const loginUser=async (req,res)=>{
                 const verifiedUserId=verifyUser._id
                 const accessToken= await jwt.sign(({verifiedUserId}), process.env.TOKEN_SECRET_CODE,{expiresIn: 300});
                 
-                res.cookie('auth',accessToken,{maxAge:300000, httpOnly: true, sameSite: "lax"})
+                res.cookies('auth',accessToken,{maxAge:300000, httpOnly: true, sameSite: "none"})
                 
                 res.json({status: 200, redirect: "/blogs"})
             }else{
