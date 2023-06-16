@@ -22,7 +22,7 @@ app.use(express.urlencoded({extended:false}));
 app.use(methodOverride('_method'));
 app.use(cors({
   credentials: true,
-  origin: "https://trendspace.onrender.com",
+  origin: "*",
  
 }));
 app.use(fileUpload());
