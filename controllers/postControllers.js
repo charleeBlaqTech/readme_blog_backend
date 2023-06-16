@@ -8,9 +8,9 @@ const postsGet          =  async (req, res)=>{
 
             const dataMain= await post.find().populate("author").sort({created: -1}).limit(1);
             const dataSideSec= await post.find().populate("author").sort({created: 1}).limit(3);
-            const dataPolitics= await post.find().populate("author").sort({created: -1}).limit(3);
-            const dataSports= await post.find().populate("author").sort({created: -1}).limit(3);
-            res.status(200).json({blogs: [dataMain,dataSideSec,dataPolitics,dataSports],user: is_user, status: 200, message: "fetch data successful"});
+            const dataPolitics= await post.find({category:"politics"}).populate("author").sort({created:-1}).limit(3);
+            const dataSports= await post.find({category:"sport"}).populate("author").sort({created:-1}).limit(3);
+            res.status(200).json({blogs: [dataMain,dataSideSec,dataPolitics,dataSports], user: is_user, status: 200, message: "fetch data successful"});
         }else{
             res.status(404).json({message: "you cant access blogs without being auth", status:404, redirect: "/signin", user: is_user})
         }
