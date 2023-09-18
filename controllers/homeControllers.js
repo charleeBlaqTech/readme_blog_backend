@@ -12,7 +12,7 @@ const loginUser=async (req,res)=>{
         const {email,password}=req.body;
         const verifyUser=await user.findOne({email:email})
         if(verifyUser){
-            const passwordVerify= await bcrypt.compareSync(password, verifyUser.password)
+            const passwordVerify= bcrypt.compareSync(password, verifyUser.password)
             if(passwordVerify === true){
                 const verifiedUserId=verifyUser._id
                 const accessToken= await jwt.sign(({verifiedUserId}), process.env.TOKEN_SECRET_CODE,{expiresIn: 300});

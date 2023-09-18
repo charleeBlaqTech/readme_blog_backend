@@ -6,12 +6,12 @@ const authorized =require('../middlewares/authUsers');
 
 
 
-router.route('/').get(authorized,PostsController.postsGet).post(authorized,PostsController.postsPost);
+router.route('/posts').get(PostsController.postsGet).post(PostsController.postsPost);
 router.get('/new',authorized, PostsController.postsNewGet);
-router.route('/:id').get(authorized,PostsController.postsShow).post(authorized,PostsController.postsUpdatePut);
-router.get('/:id/edit',authorized, PostsController.postsEditGet);
-router.get('/:id/delete',authorized, PostsController.postsDelete);
-router.get('/category/:name',authorized, PostsController.postsCategory);
+router.route('/:id').get(PostsController.postsShow).post(PostsController.postsUpdatePut);
+router.get('/:id/edit', PostsController.postsEditGet);
+router.get('/:id/delete', PostsController.postsDelete);
+router.get('/category/:name', PostsController.postsCategory);
 
 
 

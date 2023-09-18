@@ -20,11 +20,11 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(methodOverride('_method'));
-app.use(cors({
-  credentials: true,
-  origin: "*",
+// app.use(cors({
+//   credentials: true,
+//   origin: "*",
  
-}));
+// }));
 app.use(fileUpload());
 
 
@@ -33,4 +33,6 @@ app.use('/blogs', postsRoutes);
 
 
 
-app.listen(process.env.PORT)
+app.listen(process.env.PORT, ()=>{
+  console.log("server connected")
+})

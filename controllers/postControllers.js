@@ -2,18 +2,20 @@ const post = require('../models/postModel');
 
 
 const postsGet          =  async (req, res)=>{
-    const is_user= req.user
+    // const is_user= req.user
     try {
-        if(is_user){
+        // if(is_user){
 
-            const dataMain= await post.find().populate("author").sort({created: -1}).limit(1);
-            const dataSideSec= await post.find().populate("author").sort({created: 1}).limit(3);
-            const dataPolitics= await post.find({category:"politics"}).populate("author").sort({created:-1}).limit(3);
-            const dataSports= await post.find({category:"sport"}).populate("author").sort({created:-1}).limit(3);
-            res.status(200).json({blogs: [dataMain,dataSideSec,dataPolitics,dataSports], user: is_user, status: 200, message: "fetch data successful"});
-        }else{
-            res.status(404).json({message: "you cant access blogs without being auth", status:404, redirect: "/signin", user: is_user})
-        }
+            
+        // }else{
+        //     res.status(404).json({message: "you cant access blogs without being auth", status:404, redirect: "/signin", user: is_user})
+        // }
+
+        const dataMain= await post.find().populate("author").sort({created: -1}).limit(1);
+        const dataSideSec= await post.find().populate("author").sort({created: 1}).limit(3);
+        const dataPolitics= await post.find({category:"politics"}).populate("author").sort({created:-1}).limit(3);
+        const dataSports= await post.find({category:"sport"}).populate("author").sort({created:-1}).limit(3);
+        res.status(200).json({blogs: [dataMain,dataSideSec,dataPolitics,dataSports], status: 200, message: "fetch data successful"});
     } catch (error) {
         res.status(404).json({message:error, status:404,redirect: "/signin", user: is_user});
     }
@@ -56,21 +58,15 @@ const postsPost         = async (req, res)=>{
 }
 
 const postsShow         =  async(req, res)=>{
-    const is_user= req.user
-    if(req.params.id && is_user){
+    // const is_user= req.user
+    if(req.params.id){
+        const postDetail= await post.findOne({_id:req.params.id}).populate("author")
+        if(postDetail){
+            res.status(200).json({blog: postDetail, status: 200});
+        }
         
-        const postDetail= await post.findOne({_id:req.params.id}).populate("author").then((response)=>{
-            if(response.author.email === is_user.email){
-                res.status(200).json({blog: response, status: 200, owner: true, user: is_user});
-            }else{
-                res.status(200).json({blog: response, status: 200, owner: false, user: is_user});
-            }
-        }).catch((error)=>{
-            res.status(404).json({message:error, status:404, user: is_user});
-        })
-
     }else{
-        res.status(404).json({message:error, status:404, user: is_user});
+        res.status(404).json({message:error, status:404});
        
     }
    
