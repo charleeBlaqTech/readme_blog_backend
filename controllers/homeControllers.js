@@ -19,7 +19,7 @@ const loginUser=async (req,res)=>{
                 
                 res.cookie('auth',accessToken,{maxAge:300000, httpOnly: true, sameSite: "lax"})
                 
-                res.json({status: 200, redirect: "/blogs"})
+                res.json({status: 200, redirect: "/"})
             }else{
                 res.status(404).json({status: 404, message: "The password Entered does not match", redirect: "/signin"});
             }
@@ -48,7 +48,7 @@ const registerUser=async(req,res)=>{
                     password,
                     username
                 })
-                res.status(201).json({data: newUser, status:201,redirect: "/blogs", message: "Your Account was created Successfully"});
+                res.status(201).json({data: newUser, status:201,redirect: "/", message: "Your Account was created Successfully"});
             }
             
         }else{
