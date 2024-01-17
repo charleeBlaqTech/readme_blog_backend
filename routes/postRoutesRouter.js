@@ -6,7 +6,8 @@ const authorized =require('../middlewares/authUsers');
 
 
 
-router.route('/posts').get(PostsController.postsGet).post(PostsController.postsPost);
+router.route('/').get(PostsController.postsGet).post(PostsController.postsPost);
+
 router.get('/new',authorized, PostsController.postsNewGet);
 router.route('/:id').get(PostsController.postsShow).post(PostsController.postsUpdatePut);
 router.get('/:id/edit', PostsController.postsEditGet);

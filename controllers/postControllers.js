@@ -4,20 +4,13 @@ const post = require('../models/postModel');
 const postsGet          =  async (req, res)=>{
     // const is_user= req.user
     try {
-        // if(is_user){
-
-            
-        // }else{
-        //     res.status(404).json({message: "you cant access blogs without being auth", status:404, redirect: "/signin", user: is_user})
-        // }
-
         const dataMain= await post.find().populate("author").sort({created: -1}).limit(1);
-        const dataSideSec= await post.find().populate("author").sort({created: 1}).limit(3);
-        const dataPolitics= await post.find({category:"politics"}).populate("author").sort({created:-1}).limit(3);
-        const dataSports= await post.find({category:"sport"}).populate("author").sort({created:-1}).limit(3);
+        const dataSideSec= await post.find().populate("author").sort({created: 1}).limit(2);
+        const dataPolitics= await post.find({category:"politics"}).populate("author").sort({created:-1}).limit(2);
+        const dataSports= await post.find({category:"sport"}).populate("author").sort({created:-1}).limit(2);
         res.status(200).json({blogs: [dataMain,dataSideSec,dataPolitics,dataSports], status: 200, message: "fetch data successful"});
     } catch (error) {
-        res.status(404).json({message:error, status:404,redirect: "/signin", user: is_user});
+        res.status(400).json({message:error, status:400});
     }
    
 }
