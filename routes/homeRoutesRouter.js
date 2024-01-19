@@ -11,7 +11,7 @@ router.post('/login',homeController.loginUser)
 router.post('/signup',homeController.registerUser)
 router.get('/logout',chackUser,homeController.logoutUser)
 
-router.get('/contact',chackUser,homeController.contact)
+router.get('/contact',homeController.contact)
 
 
 

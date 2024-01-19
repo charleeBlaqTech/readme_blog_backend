@@ -19,7 +19,7 @@ const loginUser=async (req,res)=>{
                 
                 res.cookie('auth',accessToken,{maxAge:300000, httpOnly: true, sameSite: "lax"})
                 
-                res.json({status: 200, redirect: "/"})
+                res.json({status: 200, redirect: "/", user:verifyUser})
             }else{
                 res.status(404).json({status: 404, message: "The password Entered does not match", redirect: "/signin"});
             }
@@ -35,9 +35,9 @@ const loginUser=async (req,res)=>{
 //=======================================================================
 const registerUser=async(req,res)=>{ 
     try{
-        const {fullname,password, email, username}=req.body
+        const {fullname,password, email}=req.body
 
-        if(fullname && password && email && username){
+        if(fullname && password && email){
             const checkUserExist= await user.findOne({email:email});
             if(checkUserExist){
                 res.status(400).json({status:400, message: "User with this email already exist"})
@@ -45,8 +45,7 @@ const registerUser=async(req,res)=>{
                 const newUser= await user.create({
                     fullname,
                     email,
-                    password,
-                    username
+                    password
                 })
                 res.status(201).json({data: newUser, status:201,redirect: "/", message: "Your Account was created Successfully"});
             }
