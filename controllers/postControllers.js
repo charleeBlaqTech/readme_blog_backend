@@ -144,9 +144,9 @@ const postsCategory     = async (req, res)=>{
 
    try {
     if(req.params.name ){
-        const response= await post.find({category:req.params.name}).populate("author");
-        const data = await response.json();
-        res.status(200).json({blog:data, status:200});
+        const data= await post.find({category:req.params.name}).populate("author");
+        
+        res.status(200).json({blogs:data, status:200});
     }else{
         res.status(404).json({message:error, status:404});
     }
