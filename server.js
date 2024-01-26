@@ -17,7 +17,7 @@ const postsRoutes       = require('./routes/postRoutesRouter');
 
 
 
-const whitelist = [process.env.ORIGIN_CLIENT_URL, 'https://trendspace.onrender.com'];
+const whitelist = ["http://localhost:3000", 'https://trendspace.onrender.com'];
 
 const corsOptions = {
   origin: (origin, callback)=>{
