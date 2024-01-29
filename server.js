@@ -17,7 +17,7 @@ const blogRoute         = require('./routes/blogRoute');
 
 
 //creating cors options for accepted urls ;
-const whitelist = ["http://localhost:3000", 'https://trendspace.onrender.com'];
+const whitelist = ["http://localhost:3000","https://trendspace.vercel.app/", 'https://trendspace.onrender.com'];
 
 const corsOptions = {
   origin: (origin, callback)=>{
