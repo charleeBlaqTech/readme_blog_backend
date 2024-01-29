@@ -1,5 +1,4 @@
 const jwt           = require('jsonwebtoken');
-const User          = require('../models/UserModel');
 const checkUserExist = require('../helpers/userExist');
 
 
