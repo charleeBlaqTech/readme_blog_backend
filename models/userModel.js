@@ -1,6 +1,8 @@
-const mongoose      =require('mongoose');
-const bcrypt        =require('bcrypt')
-const Schema        = mongoose.Schema;
+const mongoose      = require('mongoose');
+const bcrypt        = require('bcrypt');
+
+const Schema = mongoose.Schema;
+
 
 
 const userSchema= new Schema({
@@ -39,14 +41,23 @@ const userSchema= new Schema({
     },
 })
 
-userSchema.pre('save',async function(next){
-    let password=this.password
-    const salt=await bcrypt.genSalt(10)
-    const hash=await bcrypt.hash(password, salt)
-    this.password=hash
-    next()
+
+//TO HASH NEW USER PASSWORD BEFOR SAVING THEIR DETAILS
+userSchema.pre('save'  ,async function(next){
+
+    if(!this.isModified('password')){
+        return next();
+    }else{
+        let password        = this.password;
+        const salt          = await bcrypt.genSalt(12);
+        const hashed        = await bcrypt.hash(password, salt);
+        this.password       = hashed;
+        next()
+    }
+
 })
 
 
-const user=new mongoose.model('user', userSchema)
-module.exports=user
+const User= mongoose.model('user', userSchema);
+
+module.exports= User

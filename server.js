@@ -1,22 +1,24 @@
-const dotenv            = require("dotenv").config();
-const mongoose          = require("mongoose");
-const cors              = require('cors');
-const methodOverride    = require('method-override');
-const bcrypt            =require('bcrypt')
-const jwt               =require('jsonwebtoken')
-const cookieParser      =require('cookie-parser');
-
-const express           = require('express');
-const fileUpload        = require('express-fileupload');
-const app               = express();
-
-const connectToDb       = require('./dbconnection/connectDB');
-
-const homeRoutes        = require('./routes/homeRoutesRouter');
-const postsRoutes       = require('./routes/postRoutesRouter');
+const express       = require('express');
+const dotenv        = require('dotenv').config();
+const cookieParser  = require('cookie-parser');
+const cors          = require('cors');
+const app           = express();
 
 
+//Database connection
+const connectDB     =require('./dbConnect/mongoDb');
 
+//require each routes from the route folder
+const registerRoute     = require('./routes/registerRoute');
+const loginRoute        = require('./routes/loginRoute');
+const homeRoute         = require('./routes/homeRoute');
+const blogRoute         = require('./routes/blogRoute');
+const movieRoute        = require('./routes/movieRoute');
+const streamRoute       = require('./routes/streamRoute');
+
+
+
+//creating cors options for accepted urls ;
 const whitelist = ["http://localhost:3000", 'https://trendspace.onrender.com'];
 
 const corsOptions = {
@@ -24,27 +26,38 @@ const corsOptions = {
     if(!origin || whitelist.indexOf(origin) !== -1){
       callback(null, true);
     }else{
-      callback(new Error('Not allowed By CORS'))
+      callback(new Error("Not Allowed By CORS"));
     }
   },
   credentials: true,
 }
 
-app.use(cookieParser());
+// ===============MIDDLEWARES==========================
+
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
-app.use(methodOverride('_method'));
 app.use(cors(corsOptions));
-app.use(fileUpload());
-
-
-app.use('/', homeRoutes);
-app.use('/blogs', postsRoutes);
+app.use(cookieParser());
+app.use(express.static('public'));
+  
 
 
 
 
-app.listen(process.env.PORT, async()=>{
-  await connectToDb()
-  console.log("server connected")
+//====== routes for application========//
+app.use('/api/v1/register', registerRoute);
+app.use('/api/v1/auth', loginRoute);
+app.use('/api/v1/', homeRoute);
+app.use('/api/v1/blogs', blogRoute);
+app.use('/api/v1/movies', movieRoute);
+app.use('/api/v1/video', streamRoute );
+
+
+
+
+
+//server listening function...  
+app.listen(process.env.PORT, async() => {
+    await connectDB();
+    console.log(`listening on port ${process.env.PORT} on the local server`)
 })
