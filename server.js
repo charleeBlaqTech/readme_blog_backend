@@ -9,8 +9,8 @@ const app           = express();
 const connectDB     =require('./dbConnect/mongoDb');
 
 //require each routes from the route folder
-const registerRoute     = require('./routes/registerRoute');
-const loginRoute        = require('./routes/loginRoute');
+// const registerRoute     = require('./routes/registerRoute');
+// const loginRoute        = require('./routes/loginRoute');
 const homeRoute         = require('./routes/homeRoute');
 const blogRoute         = require('./routes/blogRoute');
 
@@ -43,8 +43,8 @@ app.use(express.static('public'));
 
 
 //====== routes for application========//
-app.use('/api/v1/register', registerRoute);
-app.use('/api/v1/auth', loginRoute);
+// app.use('/api/v1/register', registerRoute);
+// app.use('/api/v1/auth', loginRoute);
 app.use('/api/v1/', homeRoute);
 app.use('/api/v1/blogs', blogRoute);
 
