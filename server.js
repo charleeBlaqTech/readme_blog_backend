@@ -13,8 +13,6 @@ const registerRoute     = require('./routes/registerRoute');
 const loginRoute        = require('./routes/loginRoute');
 const homeRoute         = require('./routes/homeRoute');
 const blogRoute         = require('./routes/blogRoute');
-const movieRoute        = require('./routes/movieRoute');
-const streamRoute       = require('./routes/streamRoute');
 
 
 
@@ -49,8 +47,7 @@ app.use('/api/v1/register', registerRoute);
 app.use('/api/v1/auth', loginRoute);
 app.use('/api/v1/', homeRoute);
 app.use('/api/v1/blogs', blogRoute);
-app.use('/api/v1/movies', movieRoute);
-app.use('/api/v1/video', streamRoute );
+
 
 
 
