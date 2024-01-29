@@ -6,11 +6,6 @@ const checkUserExist = require('../../helpers/userExist');
 class RegisterUser{
 
 
-    static create(req, res){
-        res.send('this is the register form page')
-    }
-
-
 
     static async store(req, res){
 
