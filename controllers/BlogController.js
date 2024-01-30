@@ -1,4 +1,4 @@
-const Blog              = require('../models/BlogModel');
+const Post             = require('../models/BlogModel');
 const {blogUploads}        = require('../helpers/fileUploads');
 
 
@@ -9,7 +9,7 @@ class BlogController{
     static async index(req, res) {
 
        try {
-        const blogs= await Blog.find({}).populate("author");
+        const blogs= await Post.find({}).populate("author");
         res.status(200).json({blogs:blogs, status:200});
        } catch (error) {
         res.status(400).json({message:error.message, status:400});
@@ -18,71 +18,71 @@ class BlogController{
     }
 
 
-    static create(req, res) {
-        if(!req.user){
-            res.send('To display the the');
-        }else{
-            res.send(`welcome to the home page ${req.user.email}`);
-        }
+    // static create(req, res) {
+    //     if(!req.user){
+    //         res.send('To display the the');
+    //     }else{
+    //         res.send(`welcome to the home page ${req.user.email}`);
+    //     }
         
-    }
+    // }
 
 
-    static async store(req, res) {
-        if(!req.body){
-            res.status(400).json({ status: 400, message:"request body cannot be empty" });
-        }
+    // static async store(req, res) {
+    //     if(!req.body){
+    //         res.status(400).json({ status: 400, message:"request body cannot be empty" });
+    //     }
 
-        try {
-            //HANDLED FILE UPLOADs FOR NEW MOVIE HERE WITH MULTER
-            const saveMovieUploads = blogUploads.single('movieImage');
+    //     try {
+    //         //HANDLED FILE UPLOADs FOR NEW MOVIE HERE WITH MULTER
+    //         const saveBlogUploads = blogUploads.single('movieImage');
             
-            if(!req.body){
-                res.status(400).json({ status: 400, message:"The movie name entered does not exist" })
-            }
-            // const blogs= await Blog.create({
-            //     title,
-            //     description,
-            //     image:  req.file.path,
-            //     category,
-            //     author 
-            // })
-            res.status(200).json({blogs:blogs, status:200});
-        } catch (error) {
-            res.status(400).json({ status: 400, message: error.message })
-        }
+    //         if(!req.body){
+    //             res.status(400).json({ status: 400, message:"The movie name entered does not exist" })
+    //         }
+    //         // const blogs= await Blog.create({
+    //         //     title,
+    //         //     description,
+    //         //     image:  req.file.path,
+    //         //     category,
+    //         //     author 
+    //         // })
+    //         res.status(200).json({blogs:blogs, status:200});
+    //     } catch (error) {
+    //         res.status(400).json({ status: 400, message: error.message })
+    //     }
 
-    }
-
-
-    static async show(req, res) {
-
-        let blogId = ""
-
-        if(!req.params){
-            res.status(400).json({ status: 400, message:"request parameter cannot be empty" });
-        }else{
-            blogId = req.params?.blogid;
-        }
-        try {
-            const singleBlog = await Blog.findById({_id: blogId}).populate('author');
-            res.status(200).json({blog: singleBlog, status:200});
-
-        } catch (error) {
-            res.status(400).json({ status: 400, message: error.message })
-        }
-
-    }
+    // }
 
 
-    static edit(req, res) {
-        try {
+    // static async show(req, res) {
 
-        } catch (error) {
-            res.status(400).json({ status: 400, message: error.message })
-        }
+    //     let blogId = ""
 
-    }
+    //     if(!req.params){
+    //         res.status(400).json({ status: 400, message:"request parameter cannot be empty" });
+    //     }else{
+    //         blogId = req.params?.blogid;
+    //     }
+    //     try {
+    //         const singleBlog = await Post.findById({_id: blogId}).populate('author');
+    //         res.status(200).json({blog: singleBlog, status:200});
+
+    //     } catch (error) {
+    //         res.status(400).json({ status: 400, message: error.message })
+    //     }
+
+    // }
+
+
+    // static edit(req, res) {
+    //     try {
+
+    //     } catch (error) {
+    //         res.status(400).json({ status: 400, message: error.message })
+    //     }
+
+    // }
 
 
     // static async update(req, res) {

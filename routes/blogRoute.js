@@ -6,9 +6,11 @@ const adminUser                         = require('../middlewares/adminRoleWare'
 
 
 
-router.route('/create').get(guestUser, BlogController.create);
+// router.route('/create').get(guestUser, BlogController.create);
 
-router.route('/').get(guestUser, BlogController.index).post(adminUser,BlogController.store);
+router.route('/').get(guestUser, BlogController.index)
+
+// post(adminUser,BlogController.store);
 
 // router.route('/:blogid').get(guestUser, BlogController.show).patch(adminUser,BlogController.update).delete(adminUser,BlogController.destroy);
 
