@@ -55,24 +55,24 @@ class BlogController{
     // }
 
 
-    // static async show(req, res) {
+    static async show(req, res) {
 
-    //     let blogId = ""
+        let blogId = ""
 
-    //     if(!req.params){
-    //         res.status(400).json({ status: 400, message:"request parameter cannot be empty" });
-    //     }else{
-    //         blogId = req.params?.blogid;
-    //     }
-    //     try {
-    //         const singleBlog = await Post.findById({_id: blogId}).populate('author');
-    //         res.status(200).json({blog: singleBlog, status:200});
+        if(!req.params){
+            res.status(400).json({ status: 400, message:"request parameter cannot be empty" });
+        }else{
+            blogId = req.params?.blogid;
+        }
+        try {
+            const singleBlog = await Post.findById({_id: blogId}).populate('author');
+            res.status(200).json({blog: singleBlog, status:200});
 
-    //     } catch (error) {
-    //         res.status(400).json({ status: 400, message: error.message })
-    //     }
+        } catch (error) {
+            res.status(400).json({ status: 400, message: error.message })
+        }
 
-    // }
+    }
 
 
     // static edit(req, res) {

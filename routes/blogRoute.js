@@ -12,7 +12,9 @@ router.route('/').get(guestUser, BlogController.index)
 
 // post(adminUser,BlogController.store);
 
-// router.route('/:blogid').get(guestUser, BlogController.show).patch(adminUser,BlogController.update).delete(adminUser,BlogController.destroy);
+router.route('/:blogid').get(guestUser, BlogController.show)
+
+// .patch(BlogController.update).delete(BlogController.destroy);
 
 // router.route('/:blogid/edit').get(adminUser, BlogController.edit);
 
