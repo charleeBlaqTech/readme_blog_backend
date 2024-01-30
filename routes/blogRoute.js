@@ -16,6 +16,8 @@ router.route('/:blogid').get(guestUser, BlogController.show)
 
 // .patch(BlogController.update).delete(BlogController.destroy);
 
+router.route('/category/:catName').get(BlogController.category);
+
 // router.route('/:blogid/edit').get(adminUser, BlogController.edit);
 
 

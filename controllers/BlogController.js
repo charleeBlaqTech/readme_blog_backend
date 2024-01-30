@@ -113,19 +113,23 @@ class BlogController{
 
     // }
 
-    // static async postsCategory(req, res){
-    //     try {
-    //      if(req.params.name ){
-    //          const data= await Blog.find({category:req.params.name}).populate("author");
-             
-    //          res.status(200).json({blogs:data, status:200});
-    //      }else{
-    //          res.status(404).json({message:error, status:404});
-    //      }
-    //     } catch (error) {
-    //      res.status(400).json({message:error.message, status:400});
-    //     }
-    //  }
+    static async category(req, res){
+        try {
+         if(req.params.catName){
+             const data= await Post.find({category:req.params.catName}).populate("author");
+
+            if(data.length){
+                res.status(200).json({blogs:data, status:200});
+            }else{
+                let error= new Error("category not found");
+                error.statusCode = 404
+                throw error
+            }   
+         }
+        } catch (error) {
+         res.status(400).json({message:error.message, status:400});
+        }
+     }
 
 
     // static async destroy(req, res) {

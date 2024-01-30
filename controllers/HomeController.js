@@ -21,7 +21,7 @@ class HomeController{
         }
 
     }
-
+    
 
     static destroy() {
 
