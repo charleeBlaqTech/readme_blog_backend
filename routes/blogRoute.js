@@ -8,7 +8,8 @@ const adminUser                         = require('../middlewares/adminRoleWare'
 
 // router.route('/create').get(guestUser, BlogController.create);
 
-router.route('/').get(guestUser, BlogController.index)
+router.route('/').get(guestUser, BlogController.index);
+router.route('/search').get(BlogController.search);
 
 // post(adminUser,BlogController.store);
 
@@ -17,6 +18,7 @@ router.route('/:blogid').get(guestUser, BlogController.show)
 // .patch(BlogController.update).delete(BlogController.destroy);
 
 router.route('/category/:catName').get(BlogController.category);
+
 
 // router.route('/:blogid/edit').get(adminUser, BlogController.edit);
 

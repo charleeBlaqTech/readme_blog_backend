@@ -132,6 +132,30 @@ class BlogController{
      }
 
 
+    static async search(req, res){
+        try {
+         if(req.query.query){
+             const data= await Post.find({
+                "$or":[
+                    {category: {$regex: req.query.query, $options: "i"}},
+                    {title: {$regex: req.query.query, $options: "i"}}
+                ]
+             }).populate("author");
+
+            if(data.length){
+                res.status(200).json({blogs:data, status:200});
+            }else{
+                let error= new Error("category not found");
+                error.statusCode = 404
+                throw error
+            }   
+         }
+        } catch (error) {
+         res.status(400).json({message:error.message, status:400});
+        }
+     }
+
+
     // static async destroy(req, res) {
     //     let blogId = ""
 
