@@ -23,17 +23,10 @@ const userSchema= new Schema({
         type:String,
         required: true,
     },
-    bio:{
-        type:String,
-        maxLength:150
-    },
-    nationality:{
-        type:String
-    },
     role:{
         type:String,
         enum:["admin","subscriber","publisher"],
-        default:"subscriber"
+        default:"admin"
     },
     joined:{
         type:Date,

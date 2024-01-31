@@ -5,7 +5,7 @@ const guestUser                         = require('../middlewares/guestWare');
 
 
 
-router.route('/').get(guestUser, HomeController.create).post();
+router.route('/').get(guestUser, HomeController.create);
 
 
 

@@ -11,6 +11,8 @@ function validateUserInputsForSignUp(req, res, next) {
       email:              req.body.email ? req.body.email.trim().toLowerCase() : '',
       password:           req.body.password ? req.body.password.trim() : '',
       confirmedPassword:  req.body.confirmedPassword ? req.body.confirmedPassword.trim() : '',
+      fullname:           req.body.fullname ? req.body.fullname.trim().toLowerCase() : '',
+      username:           req.body.username ? req.body.username.trim().toLowerCase() : '',
 
     };
 
@@ -22,6 +24,17 @@ function validateUserInputsForSignUp(req, res, next) {
         errors.push('Enter a valid email address');
       };
     }
+
+
+    if (!sanitizedData.fullname || typeof sanitizedData.fullname !== 'string') {
+      errors.push('Invalid Fullname');
+    } 
+
+
+    if (!sanitizedData.username || typeof sanitizedData.username !== 'string') {
+      errors.push('Invalid Username');
+    } 
+
 
     if (!sanitizedData.password || typeof sanitizedData.password !== 'string' || sanitizedData.password.length < 8) {
       errors.push('Invalid password and Password should be at least 8 characters');
@@ -68,9 +81,8 @@ function validateUserInputsForSignIn(req, res, next) {
   
   //sanitizing the req.body form datas to validate
     const sanitizedData = {
-      email: req.body.email ? req.body.email.trim().toLowerCase() : '',
-      password: req.body.password ? req.body.password.trim() : '',
-      confirmedPassword: req.body.confirmedPassword ? req.body.confirmedPassword.trim() : '',
+      email:      req.body.email ? req.body.email.trim().toLowerCase() : '',
+      password:   req.body.password ? req.body.password.trim() : '',
 
     };
 
@@ -94,6 +106,8 @@ function validateUserInputsForSignIn(req, res, next) {
       errors.push('Password should contain at least one uppercase letter');
     };
   };
+
+  
 
    if (!errors.length) {
       req.body = sanitizedData;

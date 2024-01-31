@@ -1,13 +1,14 @@
-
+const User              = require("../models/userModel");
 
 
 class HomeController{
 
     static async create(req, res) {
-        if(!req.user){
-            res.send('welcome to the home page ✌✌✌');
-        }else{
-            res.send(`welcome to the home page ${req.user.email}`);
+        try {
+            const users = await User.find();
+            res.status(200).json({users:users})
+        } catch (error) {
+            console.log(error.message)
         }
         
     }

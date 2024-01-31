@@ -8,9 +8,9 @@ const authorized= async (req, res, next)=>{
 
     const secret = process.env.SECRET_STRING;
 
-   if(req.cookies.auth){
+   if(req.headers.cookies){
 
-      const token = req.headers.cookie.split('=')[1];
+      const token = req.headers.cookies.split('=')[1];
 
         const { currentUserEmail }  = await jwt.verify(token, secret);
         const currentUserDetails    = await checkUserExist(currentUserEmail);
