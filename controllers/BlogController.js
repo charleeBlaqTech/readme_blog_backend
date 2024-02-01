@@ -154,9 +154,12 @@ class BlogController {
         if (data.length) {
           res.status(200).json({ blogs: data, status: 200 });
         } else {
-          let error = new Error("category not found");
-          error.statusCode = 404;
-          throw error;
+          // let error = new Error("category not found");
+          // error.statusCode = 404;
+          // throw error;
+
+          const blogs = await Post.find({}).populate("author");
+          res.status(200).json({ blogs: blogs, status: 200 });
         }
       }
     } catch (error) {
