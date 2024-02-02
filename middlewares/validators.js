@@ -118,6 +118,32 @@ function validateUserInputsForSignIn(req, res, next) {
 }
 
 
+function validateUrlQuery(req, res, next){
+  const errors = [];
+  const sanitizedData = {
+    query: req.query?.query ? req.query.query.trim() : '',
+  };
+
+
+
+  if (!sanitizedData.query || typeof sanitizedData.query !== 'string') {
+    errors.push('Invalid Search Term');
+  }else{
+    if (hasSomeUnwantedQueryCharacters(sanitizedData.query)) {
+      errors.push('Invalid Search Term');
+    };
+  };
+
+
+    if(errors.length){
+      res.status(400).json({message: errors[0]})
+    }else{
+      req.query = sanitizedData;
+      next();
+    }
+}
+
+
 function comparePassword(req, res, next) {
   const errors = [];
    if(req.body.password === req.body.confirmedPassword){
@@ -155,10 +181,27 @@ function emailIsValid(email) {
 }
 
 
+// Check if the parameters contains <script></script> or some other characters that are not used for query concat...
+function hasSomeUnwantedQueryCharacters(param) {
+  const specialChars = /[<>!#$%^*()_[\]{};|<>]/;
+  return specialChars.test(param); //note that the .text method return boolean value true or false
+}
+
+
+//HELPS TO CONVERT FIRST LETTER OF STRING TO UPERCASE
+function capitalize (str){
+  return str.replace(/\b\w/g, match=>match.toUpperCase());
+
+}
+
+
+
 
 
 module.exports = {
   validateUserInputsForSignUp,
   validateUserInputsForSignIn,
-  comparePassword
+  comparePassword,
+  validateUrlQuery,
+  capitalize 
 }

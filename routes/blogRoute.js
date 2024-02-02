@@ -3,6 +3,7 @@ const router                            = express.Router();
 const BlogController                    = require('../controllers/BlogController');
 const guestUser                         = require('../middlewares/guestWare');
 const adminUser                         = require('../middlewares/adminRoleWare');
+const {validateUrlQuery}                = require('../middlewares/validators')
 
 
 
@@ -10,7 +11,7 @@ const adminUser                         = require('../middlewares/adminRoleWare'
 
 router.route('/').get(guestUser, BlogController.index).post(adminUser,BlogController.store);
 
-router.route('/search').get(BlogController.search);
+router.route('/search').get(validateUrlQuery, BlogController.search);
 
 router.route('/:blogid').get(guestUser, BlogController.show).patch(BlogController.update).delete(BlogController.destroy);
 
