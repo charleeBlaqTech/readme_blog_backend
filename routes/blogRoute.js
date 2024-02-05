@@ -9,7 +9,7 @@ const {validateUrlQuery}                = require('../middlewares/validators')
 
 // router.route('/create').get(guestUser, BlogController.create);
 
-router.route('/').get(guestUser, BlogController.index).post(adminUser,BlogController.store);
+router.route('/').get(guestUser, BlogController.index).post(BlogController.store);
 
 router.route('/search').get(validateUrlQuery, BlogController.search);
 

@@ -18,6 +18,8 @@ class BlogController {
     }
   }
 
+
+
   static async store(req, res) {
     if (!req.body) {
       res
@@ -27,32 +29,48 @@ class BlogController {
 
     try {
       //HANDLED FILE UPLOADs FOR NEW MOVIE HERE WITH MULTER
-      const saveBlogUploads = blogUploads.single("image");
+      // const saveBlogUploads = blogUploads.single("image");
 
-      saveBlogUploads(req, res, async (error) => {
-        if (error) {
-          res.status(400).json({ message: error });
-        } else {
+      // saveBlogUploads(req, res, async (error) => {
+      //   if (error) {
+      //     res.status(400).json({ message: error });
+      //   } else {
+      //     console.log(req.body, req.file)
+      //       const currentUser = await User.findOne({ email: "john@gmail.com" });
+      //       if(!currentUser) {
+      //           res.status(400).json({ status: 400, message: "unauhtorized" });
+      //       }
 
-            const currentUser = await User.findOne({ email: req.user.email });
-            if(!currentUser) {
-                res.status(400).json({ status: 400, message: "unauhtorized" });
-            }
+      //     const blogs = await Post.create({
+      //       title:          req.body.title,
+      //       description:    req.body.description,
+      //       image:          req.file.path,
+      //       category:       req.body.category,
+      //       author:         currentUser._id,
+      //     });
+      //     res.status(200).json({ blogs: blogs, status: 200 });
+      //   }
+      // });
+
+         const currentUser = await User.findOne({ email: "john@gmail.com" });
+          if(!currentUser) {
+            res.status(400).json({ status: 400, message: "unauhtorized" });
+          }
 
           const blogs = await Post.create({
             title:          req.body.title,
             description:    req.body.description,
-            image:          req.file.path,
+            image:          req.body.image,
             category:       req.body.category,
             author:         currentUser._id,
           });
           res.status(200).json({ blogs: blogs, status: 200 });
-        }
-      });
     } catch (error) {
       res.status(400).json({ status: 400, message: error.message });
     }
   }
+
+
 
   static async show(req, res) {
     let blogId = "";
@@ -74,6 +92,8 @@ class BlogController {
     }
   }
 
+
+
   static async update(req, res) {
     let blogId = "";
 
@@ -88,38 +108,26 @@ class BlogController {
     }
 
     try {
-      //HANDLED FILE UPLOADs FOR NEW MOVIE HERE WITH MULTER
-      const saveBlogUploads = blogUploads.single("image");
+ 
+      const currentUser = await User.findOne({ email: "john@gmail.com" });
+      if(!currentUser) {
+        res.status(400).json({ status: 400, message: "unauhtorized" });
+      }
+      
+      const singlePost = await Post.findById({ _id: blogId });
 
-      saveBlogUploads(req, res, async (error) => {
-        if (error) {
-          res.status(400).json({ message: error });
-        } else {
-          //Get the single Movie from database if it exist
-          const singlePost = await Post.findById({ _id: blogId });
-
-          //check if the single movie has an image and remove from upload folder befor update to avoid multiple storage of same image
-          if (singlePost.image) {
-            await fsPromise.unlink(singlePost.image);
-          }
-          const currentUser = await User.findOne({ email: req.user.email });
-          if (!currentUser) {
-            res.status(400).json({ status: 400, message: "unauhtorized" });
-          }
-
-          singlePost.title          = req.body.title;
-          singlePost.description    = req.body.description;
-          singlePost.author         = currentUser._id;
-          singlePost.category       = req.body.category;
-          singlePost.image          = req.file.path;
-          singlePost.save();
-          res.status(200).json({ blog: singlePost, status: 200 });
-        }
-      });
+      singlePost.title          = req.body.title;
+      singlePost.description    = req.body.description;
+      singlePost.author         = currentUser._id;
+      singlePost.category       = req.body.category;
+      singlePost.image          = req.file.path;
+      singlePost.save();
+      res.status(200).json({ blog: singlePost, status: 200 });
     } catch (error) {
       res.status(400).json({ status: 400, message: error.message });
     }
   }
+
 
   static async category(req, res) {
     try {
@@ -140,6 +148,7 @@ class BlogController {
       res.status(400).json({ message: error.message, status: 400 });
     }
   }
+
 
   static async search(req, res) {
     try {
@@ -176,13 +185,6 @@ class BlogController {
           blogId = req.params?.blogid;
       }
       try {
-          //Get the single Movie from database if it exist
-          const singlePost = await Post.findById({ _id: blogId });
-
-          //check if the single movie has an image and remove from upload folder befor update to avoid multiple storage of same image
-          if (singlePost.image) {
-            await fsPromise.unlink(singlePost.image);
-          }
           await Post.findByIdAndDelete({_id: blogId});
           res.status(200).json({message:"Blog deleted successfully", status:200});
       } catch (error) {
@@ -190,6 +192,7 @@ class BlogController {
       }
 
   }
+
 
 }
 
