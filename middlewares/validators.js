@@ -161,6 +161,55 @@ function inputAreAllNumbers(password) {
   return phoneAreNumbers.test(password);
 }
 
+function validatePostFormInputs(req, res, next) {
+  const errors = [];
+  if (!req.body) {
+    res.json('request body cannot be empty.......')
+  } else {
+    //sanitizing the req.body form datas to validate
+    const sanitizedData = {
+      title:            req.body.title ? req.body.title.trim().toLowerCase() : '',
+      description:      req.body.description ? req.body.description.trim() : '',
+      category:         req.body.category ? req.body.category.trim().toLowerCase() : '',
+      image:            req.body.image ? req.body.image.trim() : ''
+    };
+
+
+    if (!sanitizedData.title || typeof sanitizedData.title !== 'string') {
+      errors.push('Invalid Title Input');
+    } 
+
+
+    if (!sanitizedData.description || typeof sanitizedData.description !== 'string') {
+      errors.push('Invalid Description Input');
+    } 
+
+
+    if (!sanitizedData.category || typeof sanitizedData.category !== 'string') {
+      errors.push('Invalid Category Input');
+    } 
+
+    if (!sanitizedData.image || typeof sanitizedData.image !== 'string') {
+      errors.push('Invalid Image Input');
+    } 
+
+
+    
+
+    if (!errors.length) {
+      req.body = sanitizedData;
+      next()
+    } else {
+      res.status(400).json({ errors })
+    }
+
+  }
+
+
+
+}
+
+
 
 // Check if the password contains at least one special character
 function hasSpecialCharacter(password) {
@@ -201,6 +250,7 @@ function capitalize (str){
 module.exports = {
   validateUserInputsForSignUp,
   validateUserInputsForSignIn,
+  validatePostFormInputs,
   comparePassword,
   validateUrlQuery,
   capitalize 

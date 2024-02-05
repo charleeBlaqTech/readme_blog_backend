@@ -2,7 +2,7 @@ const Post              = require("../models/BlogModel");
 const User              = require("../models/userModel");
 const { blogUploads }   = require("../helpers/fileUploads");
 const fsPromise         = require("fs/promises");
-
+const {capitalize}      =require('../middlewares/validators')
 
 
 
@@ -131,10 +131,10 @@ class BlogController {
 
   static async category(req, res) {
     try {
+  
       if (req.params.catName) {
-        const data = await Post.find({ category: req.params.catName }).populate(
-          "author"
-        );
+        const capitalCatName = capitalize(req.params.catName)
+        const data = await Post.find({ category: capitalCatName }).populate('author')
 
         if (data.length) {
           res.status(200).json({ blogs: data, status: 200 });

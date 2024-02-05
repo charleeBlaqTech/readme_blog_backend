@@ -3,13 +3,13 @@ const router                            = express.Router();
 const BlogController                    = require('../controllers/BlogController');
 const guestUser                         = require('../middlewares/guestWare');
 const adminUser                         = require('../middlewares/adminRoleWare');
-const {validateUrlQuery}                = require('../middlewares/validators')
+const {validateUrlQuery, validatePostFormInputs}                = require('../middlewares/validators')
 
 
 
 // router.route('/create').get(guestUser, BlogController.create);
 
-router.route('/').get(guestUser, BlogController.index).post(BlogController.store);
+router.route('/').get(guestUser, BlogController.index).post(validatePostFormInputs,BlogController.store);
 
 router.route('/search').get(validateUrlQuery, BlogController.search);
 
