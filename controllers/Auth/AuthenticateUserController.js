@@ -30,9 +30,7 @@ class AuthenticateUser {
                         const secret            = process.env.TOKEN_SECRET_CODE;
                         const currentUserEmail  = foundUser.email
                         const accessToken       = jwt.sign({currentUserEmail}, secret, { expiresIn: 420 });
-
-                        res.cookie('token', accessToken, { maxAge: 420000, httpOnly: true, sameSite: "lax" });
-                        res.status(200).json({ status: 200,token: accessToken, message: "you have been logged in successfully" });
+                        res.status(200).json({ status: 200, user:foundUser, token: accessToken, message: "you have been logged in successfully" });
                     }
                 }
 
